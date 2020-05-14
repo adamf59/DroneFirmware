@@ -5,7 +5,7 @@ Drone MCU0 AVR Program
 #include "ahrs.h"
 #include "batmon.h"
 #include "mcu.h"
-
+#include "ground_proximity.h"
 
 int main(void) {
     
@@ -23,10 +23,16 @@ int main(void) {
       }
       Serial.println(F("[  OK  ] AHRS initialization completes"));
 
-        MCU::InitializeMotors();
+    GROUND_PROXIMITY::__init__();
+    //MCU::InitializeMotors();
     
     for (;;) {
+        GROUND_PROXIMITY::__update__();
         
+        Serial.println(GROUND_PROXIMITY::getRadarVerticalSpeed());
+        
+        delay(50);
+
         // BATTERY_MONITOR::__update__();
         // Serial.print("volts: ");
         // Serial.println(BATTERY_MONITOR::GetLatestVoltage());

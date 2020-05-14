@@ -1,4 +1,4 @@
-../bin/startup.cpp.o: startup.cpp \
+../bin/ground_proximity.cpp.o: ground_proximity.cpp \
  /usr/share/arduino/hardware/arduino//cores/arduino/Arduino.h \
  /usr/share/arduino/hardware/arduino//cores/arduino/binary.h \
  /usr/share/arduino/hardware/arduino//cores/arduino/WCharacter.h \
@@ -9,5 +9,4 @@
  /usr/share/arduino/hardware/arduino//cores/arduino/Printable.h \
  /usr/share/arduino/hardware/arduino//cores/arduino/new.h \
  /usr/share/arduino/hardware/arduino//variants/eightanaloginputs/pins_arduino.h \
- /usr/share/arduino/hardware/arduino//variants/eightanaloginputs/../standard/pins_arduino.h \
- ahrs.h batmon.h mcu.h ground_proximity.h
+ /usr/share/arduino/hardware/arduino//variants/eightanaloginputs/../standard/pins_arduino.h
