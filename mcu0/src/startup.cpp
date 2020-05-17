@@ -3,9 +3,7 @@ Drone MCU0 AVR Program
 */
 #include <Arduino.h>
 #include "ahrs.h"
-#include "batmon.h"
-#include "mcu.h"
-#include "ground_proximity.h"
+#include "pid_controller.h"
 
 int main(void) {
     
@@ -22,21 +20,18 @@ int main(void) {
           Serial.println(F("[ FAIL ] Failure initializing AHRS"));
       }
       Serial.println(F("[  OK  ] AHRS initialization completes"));
-
-    GROUND_PROXIMITY::__init__();
-    //MCU::InitializeMotors();
     
+    PIDController autoRoll(-5,-0.0003,90);
+    autoRoll.setTarget(0);
     for (;;) {
-        GROUND_PROXIMITY::__update__();
-        
-        Serial.println(GROUND_PROXIMITY::getRadarVerticalSpeed());
-        
-        delay(50);
+      long updateTime = AHRS::__update__();
 
-        // BATTERY_MONITOR::__update__();
-        // Serial.print("volts: ");
-        // Serial.println(BATTERY_MONITOR::GetLatestVoltage());
-        // delay(1000);
+      Serial.print("Roll: ");
+      Serial.print(AHRS::GetRollData());
+      Serial.print(" PID: ");
+      Serial.println(autoRoll.getOutput(AHRS::GetRollData(), updateTime));
+
+      delay(50);
     }
 
     return 0;

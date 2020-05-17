@@ -14,7 +14,7 @@
 
         int __init__();
 
-        void __update__();
+        long __update__();
     }
 
 #endif

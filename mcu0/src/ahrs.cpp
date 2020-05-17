@@ -27,16 +27,18 @@ namespace AHRS {
 
     /*!
     *   @brief Pulls the most recent information from the IMU. Runs ~800 Hz maximum.
+        @return the measurement time, in milliseconds, as a long.
     */
-    void __update__() {
+    long __update__() {
         sensors_event_t event; 
         imu.getEvent(&event);
+        long measureTime = millis();
 
         _yaw = event.orientation.x;
         _pitch = event.orientation.y;
         _roll = event.orientation.z;
 
-
+        return measureTime;
     }
 
     int __init__() {
