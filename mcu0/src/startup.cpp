@@ -4,6 +4,7 @@ Drone MCU0 AVR Program
 #include <Arduino.h>
 #include "ahrs.h"
 #include "pid_controller.h"
+#include "mcu.h"
 
 int main(void) {
     
@@ -20,8 +21,14 @@ int main(void) {
           Serial.println(F("[ FAIL ] Failure initializing AHRS"));
       }
       Serial.println(F("[  OK  ] AHRS initialization completes"));
+
+
+      MCU::InitializeMotors();
+      delay(3000);
+      MCU::ArmMotors();
+      Serial.println(F("[  OK  ] Motor Control Unit initialized, motors armed."));
     
-    PIDController autoRoll(-5,-0.0003,90);
+    PIDController autoRoll(-.4015,-0.00003,0.1);
     autoRoll.setTarget(0);
     for (;;) {
       long updateTime = AHRS::__update__();
@@ -29,9 +36,19 @@ int main(void) {
       Serial.print("Roll: ");
       Serial.print(AHRS::GetRollData());
       Serial.print(" PID: ");
-      Serial.println(autoRoll.getOutput(AHRS::GetRollData(), updateTime));
+      float output = autoRoll.getOutput(AHRS::GetRollData(), updateTime);
+      Serial.println(output);
 
-      delay(50);
+      float m1 = 50 + output;
+      float m2 = 50 - output;
+      float m3 = 50 - output;
+      float m4 = 50 + output;
+
+      MCU::SetMotorPower(m1, m2, m3, m4);
+
+
+
+      delay(200);
     }
 
     return 0;

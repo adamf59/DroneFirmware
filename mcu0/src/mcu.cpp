@@ -1,5 +1,6 @@
 #include <Servo.h>
 #include <Arduino.h>
+#include "mcu.h"
 
 
 namespace MCU {
@@ -12,49 +13,27 @@ namespace MCU {
         _m2.attach(10);
         _m3.attach(11);
         _m4.attach(12);
-        
-        Serial.println("Starting: SIGNAL HIGH");
-        _m1.write(180);
-        _m2.write(180);
-        _m3.write(180);
-        _m4.write(180);
-        delay(5000);
-        Serial.println("low point: SIGNAL LOW");
-        _m1.write(0);
-        _m2.write(0);
-        _m3.write(0);
-        _m4.write(0);
-        delay(4000);
-        Serial.println("speed up test in 3");
-        delay(1000);
-        Serial.println("speed up test in 2");
-        delay(1000);
-        Serial.println("speed up test in 1");
-        delay(1000);
-        Serial.println("speeding up...");
-        for(int i = 0; i <= 180; i++) {
-        _m1.write(i);
-        _m2.write(i);
-        _m3.write(i);
-        _m4.write(i);
-            delay(200);
-        }
-        Serial.println("now slowing down...");
-        for(int i = 180; i >= 0; i--) {
-            _m1.write(i);
-            _m2.write(i);
-            _m3.write(i);
-            _m4.write(i);
-            delay(200);
-        }
-        Serial.println("motor program completed.");
+        SetMotorPower(0, 0, 0, 0);
     }
 
     void ArmMotors() {
         
     }
 
-    void SetMotorPower(int value) {
+    void SetMotorPower(int m1, int m2, int m3, int m4) {
+        _m1.write(m1);
+        _m2.write(m2);
+        _m3.write(m3);
+        _m4.write(m4);
+    }
+
+    void executeIncentive(float roll, float pitch, float yaw, float altitude) {
+            // lets assume altitude is holding the motors at power = 50 for example
+            altitude = 50;
+
+            // sum motor 1:
+            float m1_setting = 0;
+
 
     }
 
